@@ -1,4 +1,4 @@
-/*resource "data.azurerm_resource_group.containers.g" {
+/*resource "azurerm_resource_group" "resource_group" {
   name                     = "container-instances"
   location                 = "westeurope"
 }*/
