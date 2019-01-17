@@ -53,7 +53,7 @@ resource "azurerm_container_group" "aci-vsts" {
 
   container {
     name                   = "vsts-agent-test"
-    image                  = "paulmackinnonacr.azurecr.io/aci-agent:v1"
+    image                  = "paulmackinnonacr.azurecr.io/aci-agent:v2"
     cpu                    = "0.5"
     memory                 = "1.5"
     ports                  = {
