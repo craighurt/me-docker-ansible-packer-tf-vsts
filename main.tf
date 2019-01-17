@@ -46,9 +46,9 @@ resource "azurerm_container_group" "aci-vsts" {
   os_type                  = "linux"
 
   image_registry_credential {
-    "username"           = "${data.azurerm_container_registry.acr.admin_username}"
-    "password"           = "${data.azurerm_container_registry.acr.admin_password}"
-    "server"             = "${data.azurerm_container_registry.acr.login_server}"
+    "username"             = "${data.azurerm_container_registry.acr.admin_username}"
+    "password"             = "${data.azurerm_container_registry.acr.admin_password}"
+    "server"               = "${data.azurerm_container_registry.acr.login_server}"
   }
 
   container {
@@ -56,13 +56,19 @@ resource "azurerm_container_group" "aci-vsts" {
     image                  = "paulmackinnonacr.azurecr.io/aci-agent:v1"
     cpu                    = "0.5"
     memory                 = "1.5"
-    port                   = "80"
+    ports                  = {
+      port                 = 80
+      protocol             = "TCP"
+    }
 
     environment_variables {
       "VSTS_ACCOUNT"       = "${var.vsts-account}"
-      "VSTS_TOKEN"         = "${var.vsts-token}"
       "VSTS_AGENT"         = "${var.vsts-agent}"
       "VSTS_POOL"          = "${var.vsts-pool}"
+    }
+
+    secure_environment_variables {
+      "VSTS_TOKEN"         = "${var.vsts-token}"
     }
 
     volume {
