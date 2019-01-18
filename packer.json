@@ -1,0 +1,52 @@
+{
+    "variables": {
+        "login_password": ""
+    },
+    "builders": [
+        {
+        "type": "docker",
+        "image": "microsoft/vsts-agent:ubuntu-16.04",
+        "commit": true,
+        "pull": true,
+        "changes": [
+            "CMD [\"./start.sh\"]"
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+        "type": "shell",
+        "inline": [
+            "echo '**** Maintenance'",
+            "apt-get update && apt-add-repository -y --update ppa:ansible/ansible",
+            "apt-get install unzip -y && apt-get install software-properties-common -y && apt-get install ansible -y",
+            "echo '**** Install Terraform'",
+            "mkdir /files && mkdir /files/terraform && mkdir /files/packer && chmod -R 777 /files",
+            "cd /files/terraform",
+            "curl https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip --output terraform_0.11.11_linux_amd64.zip && unzip terraform_0.11.11_linux_amd64.zip",
+            "mv terraform /usr/local/bin/",
+            "echo '**** Install Packer'",
+            "cd /files/packer",
+            "curl https://releases.hashicorp.com/packer/1.3.2/packer_1.3.2_linux_arm64.zip --output packer_1.3.2_linux_arm64.zip && unzip packer_1.3.2_linux_arm64.zip",
+            "mv packer /usr/local/bin/",
+            "echo '**** File CleanUp'",
+            "rm -rf /files && rm -rf /var/lib/apt/lists/* && cd /vsts"
+            ]
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "docker-tag",
+                "repository": "paulmackinnonacr.azurecr.io/vsts-agent",
+                "tag": "v3"
+            },
+            {
+                "type": "docker-push",
+                "login_username": "paulmackinnonacr",
+                "login_password": "{{user `login_password`}}",
+                "login_server": "paulmackinnonacr.azurecr.io"
+            }
+        ]
+    ]
+}
