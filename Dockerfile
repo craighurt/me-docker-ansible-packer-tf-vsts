@@ -11,7 +11,7 @@ RUN curl https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linu
 RUN mv terraform /usr/local/bin/
 
 WORKDIR /files/packer
-RUN curl https://releases.hashicorp.com/packer/1.3.2/packer_1.3.2_linux_arm64.zip --output packer_1.3.2_linux_arm64.zip && unzip packer_1.3.2_linux_arm64.zip
+RUN curl https://releases.hashicorp.com/packer/1.3.2/packer_1.3.2_linux_amd64.zip --output packer_1.3.2_linux_amd64.zip && unzip packer_1.3.2_linux_amd64.zip
 RUN mv packer /usr/local/bin/
 
 RUN rm -rf /files
