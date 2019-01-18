@@ -7,4 +7,4 @@ Original Docker file taken from MS:
 
 Spin up an Azure Container Instance that registers with your Azure DevOps account via an agent that has the capability to utilise Ansible, Packer and Terraform.
 
-Creating the image via Packer (packer.json) creates a smaller image with fewer layers as opposed to using the Dockerfile.
+Creating the image via Packer (packer.json) creates a smaller image with fewer layers as opposed to using the Dockerfile. "Docker Push" seems to only work with Azure once you've logged into the constole (Az Login) and the container registry (Az ACR Login), before running Packer Build.
