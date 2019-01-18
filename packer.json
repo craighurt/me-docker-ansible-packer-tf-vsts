@@ -19,6 +19,7 @@
         "inline": [
             "echo '**** Maintenance'",
             "apt-get update && apt-add-repository -y --update ppa:ansible/ansible",
+            "echo' **** Install Apps & Ansible'",
             "apt-get install unzip -y && apt-get install software-properties-common -y && apt-get install ansible -y",
             "echo '**** Install Terraform'",
             "mkdir /files && mkdir /files/terraform && mkdir /files/packer && chmod -R 777 /files",
